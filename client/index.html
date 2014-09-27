@@ -71,20 +71,39 @@
 <!-- website buttons -->
 <div id="controls">
 
-<div id="project-name">We Need Us&nbsp;</div>
-        <div class="gui-buttons">
-       		<a id="main_button" class="btn popoverData topButton" href="#"  data-content="Information" rel="popover" data-placement="bottom" data-trigger="hover">
-			<i class="fa fa-info fa-2x"></i></a>
-            <a id="full-screen-button" class="btn popoverData topButton" data-content="Full Screen" href="#" style="font-size: 14px" rel="popover" data-placement="bottom" data-trigger="hover"><i class="fa fa-arrows-alt fa-lg"></i></a>
-            <a id="mute-button" class="btn popoverData topButton" data-content="Sound" href="#" style="font-size: 16px" rel="popover" data-placement="bottom" data-trigger="hover"><i class="fa fa-volume-up fa-lg"></i></a>
-        </div>
-        <div id="sound-progress"></div>
+<a id="full-screen-button" class="btn popoverData windowTop" data-content="Full Screen" href="#" style="font-size: 14px" rel="popover" data-placement="bottom" data-trigger="hover"><i class="fa fa-arrows-alt fa-lg"></i></a>
 
-<div id="gui">
-    <div class="gui-inner">
+<a id="project-left" class="btn popoverData windowTop" href="#" onclick="alert('PreviousScene');" data-content="Previous" rel="popover" data-placement="bottom" data-trigger="hover"><i id="scene_control_left" class="fa fa-arrow-left"></i></a>
+<a id="project-title" class="btn popoverData windowTop" href="" target="mainContent" data-content="About" rel="popover" data-placement="bottom" data-trigger="hover" onclick='openProjectInfo();'>
+<div id="project-name"> We Need Us&nbsp;</div></a>
+<a id="project-right" class="btn popoverData windowTop" href="#" onclick="alert('NextScene');" data-content="Next" rel="popover" data-placement="bottom" data-trigger="hover"><i id="scene_control_right" class="fa fa-arrow-right"></i></a>
+        <a id="mute-button" class="btn popoverData windowTop" data-content="Sound" href="#" style="font-size: 16px" rel="popover" data-placement="bottom" data-trigger="hover"><i class="fa fa-volume-up fa-lg"></i></a>
+		<div id="sound-progress">Loading sounds...</div>
         
-    </div>
-</div>
+		
+		 <ul class="nav top-left">
+    	  <li>
+        <a id="AboutB" class="btn popoverData leftButton" href="webpages/about.htm" target="mainContent" data-content="About" rel="popover" data-placement="right" data-trigger="hover" >
+        <i class="fa fa-info fa-lg"></i></a></li>
+    	  <li>    
+        <a id="ArtistB" class="btn popoverData leftButton" href="webpages/artist.htm" target="mainContent" data-content="Artist" rel="popover" data-placement="right" data-trigger="hover" >
+        <i class="fa fa-lightbulb-o fa-lg"></i></a></li>
+    <li>     
+    	<a id="DataB" class="btn popoverData leftButton" href="webpages/data.htm" target="mainContent" data-content="Data" rel="popover" data-placement="right" data-trigger="hover" >
+    	<i class="fa fa-bar-chart fa-lg"></i></a></li>
+    <li> 	
+    	<a id="LicenceB"class="btn popoverData leftButton" href="webpages/licence.htm" target="mainContent" data-content="Licence" rel="popover" data-placement="right" data-trigger="hover" >
+    	<i class="fa fa-code-fork fa-lg"></i></a></li>
+    <li> 	
+    	<a id="NewsB" class="btn popoverData leftButton" href="webpages/news.htm" target="mainContent" data-content="News" rel="popover" data-placement="right" data-trigger="hover">
+    	<i class="fa fa-newspaper-o fa-lg"></i></a></li>
+    <li> 	
+    	<a id="CreditsB" class="btn popoverData leftButton" href="webpages/credits.htm" target="mainContent" data-content="Credits" rel="popover" data-placement="right" data-trigger="hover" >							
+    	<i class="fa fa-star-o fa-lg"></i></a></li>
+    <li> 	
+    	<a id="ContactB" class="btn popoverData leftButton" href="webpages/contact.htm" target="mainContent" data-content="Contact" rel="popover" data-placement="right" data-trigger="hover" >
+    	<i class="fa fa-comments-o fa-lg"></i></a></li>
+  </ul>
 
 
 </div>
@@ -167,34 +186,45 @@
 			    }
 			}
 
-		
+		function openProjectInfo() {
+		$( "#about_weneedus_div" ).fadeOut( "slow", "linear" );
+		var link = $('#project-name').html()+'.htm';
+		$("#project-title").attr('href', link);
+		}
 		
 		$(document).ready(function () {
 			
 			$('.popoverData').popover();
 			$('.popoverOption').popover({ trigger: "hover" });
 			
-			$( "#main_button" ).click(function() {
-	  		$( "#about_weneedus_div" ).fadeToggle( "slow", "linear" );
+			$( ".leftButton" ).click(function() {
+	  		$( "#about_weneedus_div" ).fadeIn( "slow", "linear" );
 			});
 			
 			$( "#closeBtton" ).click(function() {
 	  		$( "#about_weneedus_div" ).fadeOut( "slow", "linear" );
 			});
 			
+			
+			
 			$(function () {
 				    var timer;
+				    var infoWindowTimer;
 				    var fadeInBuffer = false;
 				    $(document).mousemove(function () {
 				        if (!fadeInBuffer) {
 				            if (timer) {
 				                clearTimeout(timer);
 				                timer = 0;
+				                clearTimeout(infoWindowTimer);
+				                infoWindowTimer = 0;
 				            }
 				            $('#controls').fadeIn();
 				            $('body').css({
 				                cursor: ''
 				            });
+				            
+				            
 				        } else {
 				            fadeInBuffer = false;
 				        }
@@ -206,6 +236,9 @@
 				                cursor: 'none'
 				            });
 				            fadeInBuffer = true;
+				            infoWindowTimer = setTimeout(function () {
+				            $('#about_weneedus_div').fadeOut()
+				        }, 60000);
 				        }, 5000)
 				    });
 				});
